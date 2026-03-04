@@ -2,6 +2,54 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
+
+<script>
+(function() {
+  // Disable right-click
+  document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    return false;
+  });
+
+  // Block DevTools keyboard shortcuts
+  document.addEventListener('keydown', function(e) {
+    // F12
+    if (e.key === 'F12' || e.keyCode === 123) {
+      e.preventDefault(); return false;
+    }
+    // Ctrl+Shift+I / Cmd+Opt+I
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'i')) {
+      e.preventDefault(); return false;
+    }
+    // Ctrl+Shift+J
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'J' || e.key === 'j')) {
+      e.preventDefault(); return false;
+    }
+    // Ctrl+Shift+C
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'C' || e.key === 'c')) {
+      e.preventDefault(); return false;
+    }
+    // Ctrl+U (View Source)
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'U' || e.key === 'u')) {
+      e.preventDefault(); return false;
+    }
+  });
+
+  // Detect DevTools open via window size gap
+  function detectDevTools() {
+    var widthDiff  = window.outerWidth  - window.innerWidth;
+    var heightDiff = window.outerHeight - window.innerHeight;
+    if (widthDiff > 160 || heightDiff > 160) {
+      document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#0a0a0a;color:#00e87a;font-family:monospace;font-size:20px;text-align:center;">🚫 Access Denied.<br><br>Please close Developer Tools.</div>';
+    }
+  }
+  setInterval(detectDevTools, 1000);
+
+  // Debugger trap — freezes DevTools console
+  setInterval(function() { (function(){}).constructor('debugger')(); }, 100);
+})();
+</script>
+  
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Pallab Chakraborty — CS Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
