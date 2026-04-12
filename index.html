@@ -251,6 +251,7 @@ main{position:relative;z-index:1}
   font-family:'JetBrains Mono',monospace;
   font-size:clamp(11.5px,1.3vw,13px);
   line-height:1.9;overflow-x:auto;
+  overflow-y:auto; height:320px;
 }
 .tl{display:flex;gap:8px}
 .tp{color:var(--accent);flex-shrink:0}
@@ -531,30 +532,24 @@ footer{
       </div>
 
       <!-- Terminal -->
-      <div class="terminal">
-        <div class="tb">
-          <span class="td td-r"></span>
-          <span class="td td-y"></span>
-          <span class="td td-g"></span>
-          <span class="tt">pallab@jnu &mdash; profile.json</span>
-        </div>
-        <div class="tc">
-          <div class="tl"><span class="tp">$</span><span style="color:var(--text)">&nbsp;cat profile.json</span></div>
-          <br>
-          <div class="td2">{</div>
-          <div class="ti td2">"<span class="tk">name</span>": <span class="ts">"Pallab Chakraborty"</span>,</div>
-          <div class="ti td2">"<span class="tk">role</span>": <span class="ts">"CS Engineer"</span>,</div>
-          <div class="ti td2">"<span class="tk">university</span>": <span class="ts">"JNU, Delhi"</span>,</div>
-          <div class="ti td2">"<span class="tk">focus</span>": [ <span class="ts">"DSA"</span>, <span class="ts">"Full Stack"</span> ],</div>
-          <div class="ti td2">"<span class="tk">hackathons</span>": <span class="tn">2</span>,</div>
-          <div class="ti td2">"<span class="tk">repos</span>": <span class="tn">11</span>,</div>
-          <div class="ti td2">"<span class="tk">certs</span>": <span class="tn">4</span>,</div>
-          <div class="ti td2">"<span class="tk">open_to</span>": <span class="ts">"collabs &amp; internships"</span></div>
-          <div class="td2">}</div>
-          <br>
-          <div class="tl"><span class="tp">$</span><span class="tblink"></span></div>
-        </div>
-      </div>
+<div class="terminal">
+  <div class="tb">
+    <span class="td td-r"></span>
+    <span class="td td-y"></span>
+    <span class="td td-g"></span>
+    <span class="tt">pallab@jnu &mdash; interactive-terminal.sh</span>
+  </div>
+  <div class="tc" id="terminal-box">
+    <div id="terminal-output">Welcome. Type <span style="color:var(--accent)">help</span> to begin.<br><br></div>
+    <div class="tl">
+      <span class="tp">$</span>
+      <input type="text" id="terminal-input" autocomplete="off"
+        style="background:transparent;border:none;outline:none;color:var(--accent2);
+               flex:1;font-family:'JetBrains Mono',monospace;font-size:clamp(11.5px,1.3vw,13px);
+               padding-left:8px;">
+    </div>
+  </div>
+</div>
 
     </div>
   </div>
@@ -897,6 +892,36 @@ window.addEventListener('scroll', () => {
       : '';
   });
 }, { passive: true });
+
+// ── Interactive Terminal ──
+const termOut = document.getElementById('terminal-output');
+const termIn  = document.getElementById('terminal-input');
+
+const termCmds = {
+  help:     () => "Commands: <span style='color:var(--accent)'>about, skills, projects, github, contact, clear</span>",
+  about:    () => "B.Tech CSE @ JNU. Loves DSA, full-stack, and shipping real projects.",
+  skills:   () => "Java • C++ • Python • JavaScript • React • Flask • Kotlin • MongoDB • Git",
+  projects: () => "Dr. Madhurima Portfolio • McDonald's Clone • Bike Sales Dashboard • Ecommerce Dashboard • Interactive Playground",
+  github:   () => { window.open('https://github.com/Pallab-Chakraborty','_blank'); return "Opening GitHub..."; },
+  contact:  () => "Email: pallab98_soe@jnu.ac.in",
+  clear:    () => { termOut.innerHTML = ''; return null; }
+};
+
+if (termIn) {
+  termIn.addEventListener('keypress', (e) => {
+    if (e.key !== 'Enter') return;
+    const cmd = termIn.value.trim().toLowerCase();
+    termOut.innerHTML += `<div class="tl"><span class="tp">$</span><span style="color:var(--text)">&nbsp;${cmd}</span></div>`;
+    if (cmd && termCmds[cmd]) {
+      const res = termCmds[cmd]();
+      if (res) termOut.innerHTML += `<div style="color:var(--sub);padding-left:22px;margin-bottom:8px">${res}</div><br>`;
+    } else if (cmd) {
+      termOut.innerHTML += `<div style="color:#f77f7f;padding-left:22px;margin-bottom:8px">Command not found. Type <span style="color:var(--accent)">help</span>.</div><br>`;
+    }
+    termIn.value = '';
+    termOut.scrollTop = termOut.scrollHeight;
+  });
+}
 </script>
 </body>
 </html>
