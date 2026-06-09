@@ -1,6 +1,6 @@
 # 🖥️ Pallab Chakraborty — Personal Portfolio
 
-> **Live Site:** [pallab-chakraborty.github.io/pallab](https://pallab-chakraborty.github.io/pallab/)
+> **Live Site:** https://pallab-chakraborty.github.io/pallab.cse/
 
 A clean, responsive personal portfolio website built with pure **HTML5**, **CSS3**, and **JavaScript** — showcasing my skills, projects, and experience as a B.Tech CS Engineering student at Jawaharlal Nehru University, New Delhi.
 
